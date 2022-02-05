@@ -1,0 +1,78 @@
+                        cooldown = false
+                        end
+                    end
+                end)
+            end
+        end
+    end
+end)
+local is_on = function()
+    return on and 'on' or 'off'
+end
+ 
+local mouse = plr:GetMouse()
+mouse.KeyDown:connect(function(key)
+    if key == 'p' then
+        on = not on
+    elseif key == ';' then
+        local status = is_on()
+        starterGui:SetCore('SendNotification', {Title = 'SerephX', Text = 'Exploit is '..status..'. Current: '.. distance..' studs'})
+    elseif key == "," then
+        distance = distance - 1
+        starterGui:SetCore("SendNotification", {Title = "SerephX", Text = "Reach Strength has increased by 1. Current: " .. distance..' studs'})
+    elseif key == "." then
+        if distance < 20 then
+            distance = distance + 1
+            starterGui:SetCore("SendNotification", {Title = "SerephX", Text = "Reach Strength has decreased by 1. Current: " .. distance..' studs'})
+        else
+            starterGui:SetCore("SendNotification", {Title = "SerephX", Text = "Cannot Increase any further!"})
+        end
+    end
+end)
+ 
+ 
+if _G.SphereActivated then
+function Update()
+    game.Players.LocalPlayer.Character.ChildAdded:Connect(function(tool)
+        if tool:FindFirstChild("Handle") then
+        Part = Instance.new("Part")
+        Weld = Instance.new("Weld", workspace)
+        Part.Parent = workspace
+        Part.Transparency = 1
+        Part.CanCollide = false
+        Sphere = Instance.new("SelectionSphere",game:GetService("CoreGui").RobloxGui.Modules)
+        Sphere.Transparency = 1 
+        Sphere.SurfaceColor3 = Color3.new(255,0,0)
+        Sphere.Name = "Sphere"
+        Sphere.SurfaceTransparency = .5
+        Sphere.Adornee = Part 
+        Part.Massless = true
+        Part.Position = game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool").Handle.Position
+        Weld.Part0 = Part 
+        Weld.Part1 = game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool").Handle
+         game:GetService("RunService").Stepped:Connect(function()
+         Part.Size = Vector3.new(distance,distance,distance)
+         end)
+      end
+    end)
+  end
+function UnEquip()
+    game.Players.LocalPlayer.Character.ChildRemoved:Connect(function(int)
+        if int:FindFirstChild("Handle") then
+            for i,v in pairs(game:GetService("CoreGui").RobloxGui.Modules:GetDescendants()) do 
+                if v.Name == 'Sphere' then
+                    v:Destroy()
+                end
+            end
+        end
+    end)
+end
+ 
+ 
+ 
+Update()
+UnEquip()
+ 
+game.Players.LocalPlayer.CharacterAdded:Connect(Update)
+game.Players.LocalPlayer.CharacterAdded:Connect(UnEquip)    
+end
