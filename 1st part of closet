@@ -1,3 +1,4 @@
+
 local ClickRate = 0.1/25 --1/fps
 local Keybind = Enum.KeyCode.U
  
@@ -38,5 +39,4 @@ UIS.InputBegan:Connect(function(k,g)
 		Toggle()
 	end
 end)
- 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/iamstillcool12345/eys/main/2nd%20part%20of%20closet"))()
+
